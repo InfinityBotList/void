@@ -17,3 +17,9 @@ type Document struct {
 	Services []Service `yaml:"services"`
 	APIUrls  []string  `yaml:"apiUrls"`
 }
+
+type HTMLCtx struct {
+	MatchedService Service
+	Path           string
+	Hostname       string
+}

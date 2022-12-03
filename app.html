@@ -57,8 +57,8 @@
         <div class="header">
             <h1 class="bold">503</h1>
             <h2>Service Temporarily Unavailable</h2>
-            <a type="button" class="btn btn-primary" href="{inv}"><iconify-icon inline icon="fa-brands:discord"></iconify-icon> Support Server</a>
-            <a type="button" class="btn btn-secondary" href="https://{request.url.hostname}"><iconify-icon inline icon="lucide:globe"></iconify-icon> Visit Website</a>
+            <a type="button" class="btn btn-primary" href="{{.MatchedService.Support}}"><iconify-icon inline icon="fa-brands:discord"></iconify-icon> Support Server</a>
+            <a type="button" class="btn btn-secondary" href="https://{{.MatchedService.Domain}}"><iconify-icon inline icon="lucide:globe"></iconify-icon> Visit Website</a>
             <br /><br />
         </div>
         <hr />

@@ -2,10 +2,14 @@ package main
 
 import (
 	_ "embed"
+	"fmt"
+	"html/template"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 	"void/state"
+	"void/types"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -14,11 +18,14 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-//go:embed services.yaml
-var servicesByte []byte
+var (
+	//go:embed services.yaml
+	servicesByte []byte
+	//go:embed app.html
+	appHTML []byte
 
-//go:embed app.html
-var appHTML []byte
+	appTemplate *template.Template
+)
 
 // Load the services.yaml file into the state here because we use go:embed
 func init() {
@@ -37,6 +44,8 @@ func init() {
 	if err != nil {
 		log.Fatal("Could not validate services.yaml:", err)
 	}
+
+	appTemplate = template.Must(template.New("app").Parse(string(appHTML)))
 
 	state.Logger.Info("Got services:", state.Services)
 }
@@ -74,8 +83,55 @@ func main() {
 	)
 
 	r.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {
+		// Get the hostname from the request
+		hostname := r.Host
+
+		// Also get the root domain from the request
+		var rootDomain string
+
+		rootDomainLst := strings.Split(hostname, ".")
+
+		// Then slice last 2 elements IF the length is greater than 2
+		if len(rootDomainLst) > 2 {
+			rootDomain = strings.Join(rootDomainLst[len(rootDomainLst)-2:], ".")
+		} else {
+			rootDomain = hostname
+		}
+
+		fmt.Println(hostname, rootDomain)
+
+		// Find the right service from config
+		var service = types.Service{
+			Name:    "Unknown Service",
+			Domain:  "infinitybots.gg",
+			Support: "https://discord.gg/cRuprw9CGz",
+			Status:  "https://status.botlist.site/",
+		}
+
+		for _, s := range state.Services.Services {
+			if s.Domain == rootDomain {
+				service = s
+				break
+			}
+		}
+
+		htmlCtx := types.HTMLCtx{
+			MatchedService: service,
+			Path:           r.URL.Path,
+			Hostname:       hostname,
+		}
+
+		// Set status code of 408
+		w.WriteHeader(http.StatusRequestTimeout)
 		w.Header().Add("Content-Type", "text/html")
-		w.Write(appHTML)
+
+		// Execute the template
+		err := appTemplate.Execute(w, htmlCtx)
+
+		if err != nil {
+			state.Logger.Error("Could not execute template:", err)
+			w.Write([]byte(err.Error()))
+		}
 	})
 
 	http.ListenAndServe(":3838", r)

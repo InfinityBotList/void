@@ -3,3 +3,28 @@ services:
     domain: "infinitybots.gg"
     support: "https://discord.gg/cRuprw9CGz"
     status: "https://status.botlist.site/"
+
+  - name: "JobCord"
+    domain: "jobcord.co"
+    support: "https://discord.gg/E3tan4FRux"
+    status: "https://status.jobcord.co/"
+
+  - name: "ReviewBots"
+    domain: "reviewbots.xyz"
+    support: "https://discord.gg/azdFD5fG6j"
+    status: "https://status.botlist.site/" # This is the same as Infinity Bot List
+
+  - name: "DisWidgets"
+    domain: "diswidgets.org"
+    support: "https://discord.gg/RbaAfbd692"
+    status: "https://status.diswidgets.org/"
+
+  - name: "ChillCord"
+    domain: "chillcord.life"
+    support: "https://discord.gg/cRuprw9CGz"
+    status: "https://status.botlist.site/" # This is the same as Infinity Bot List
+  
+  - name: "Select List"
+    domain: "select-list.xyz"
+    support: "https://discord.gg/XdGs8WFFtK"
+    status: "https://status.select-list.xyz/"
