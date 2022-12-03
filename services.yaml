@@ -1,0 +1,5 @@
+services:
+  - name: "Infinity Bot List"
+    domain: "infinitybots.gg"
+    support: "https://discord.gg/cRuprw9CGz"
+    status: "https://status.botlist.site/"
