@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>503 - Maintenance</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@200;400;900&display=swap" rel="stylesheet">
+        <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>        
+        <style>
+            h1, h2, h3, h4, a, p, small, ol, li, details, summary, button, div, span, * {
+                font-family: 'Lexend Deca', sans-serif;
+                font-weight: normal;
+                color: white;
+            }
+        
+            code {
+                font-weight: normal;
+            }
+        
+            a {
+                text-decoration: none;
+                border-radius: 5px 5px 5px 5px;
+                border: 1px solid #7289DA;
+                padding: 10px;
+            }
+        
+            code {
+                background-color: #23272a;
+                color: #7289da;
+            }
+        
+            body {
+                overflow-x: hidden !important;
+                background: black !important;
+            }
+
+            .header {
+                text-align: center;
+                padding: 1px;
+            }
+
+            .whoops {
+                text-align: center;
+            }
+
+            hr {
+                width: 95%;
+            }
+
+            .bold {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1 class="bold">503</h1>
+            <h2>Service Temporarily Unavailable</h2>
+            <a type="button" class="btn btn-primary" href="{inv}"><iconify-icon inline icon="fa-brands:discord"></iconify-icon> Support Server</a>
+            <a type="button" class="btn btn-secondary" href="https://{request.url.hostname}"><iconify-icon inline icon="lucide:globe"></iconify-icon> Visit Website</a>
+            <br /><br />
+        </div>
+        <hr />
+        <p class="whoops">
+            Whoops, looks like the service is currently unable to handle requests or down for maintenance! Don't worry, we're probably on top of it already<iconify-icon icon="mdi:tm"></iconify-icon>
+        </p>
+    </body>
+</html>
