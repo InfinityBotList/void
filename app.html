@@ -52,22 +52,17 @@
                 font-weight: bold;
             }
 
-            .iframe {
-                width: 95%;
-                margin: auto;
-                height: auto;
-                min-height: 700px;
-                border: none;
-            }
-
-            .padded {
-                width: 95%;
-                margin: auto;
-            }
-
             .sep {
                 margin-bottom: 10px;
                 margin-top: 10px;
+            }
+
+            .foot {
+                width: 95%;
+                margin: auto;
+                margin-left: 10px;
+                position: absolute;
+                bottom: 30px;
             }
         </style>
     </head>
@@ -75,8 +70,9 @@
         <div class="header">
             <h1 class="bold">503</h1>
             <h2>Service Temporarily Unavailable</h2>
-            <a type="button" class="btn btn-primary" href="{{.MatchedService.Support}}"><iconify-icon inline icon="fa-brands:discord"></iconify-icon> Support Server</a>
-            <a type="button" class="btn btn-secondary" href="https://{{.MatchedService.Domain}}"><iconify-icon inline icon="lucide:globe"></iconify-icon> Visit Website</a>
+            <a type="button" href="{{.MatchedService.Support}}"><iconify-icon inline icon="fa-brands:discord"></iconify-icon> Support Server</a>
+            <a type="button" href="https://{{.MatchedService.Domain}}"><iconify-icon inline icon="lucide:globe"></iconify-icon> Visit Website</a>
+            <a type="button" href="https://{{.MatchedService.Status}}"><iconify-icon inline icon="pajamas:status-alert"></iconify-icon> Status Page</a>
             <br /><br />
         </div>
         <p class="whoops">
@@ -91,6 +87,18 @@
         <iconify-icon inline icon="fa-solid:exclamation-circle"></iconify-icon> <strong>NOTE:</strong> All maintenances will return a status code of <code>408</code>. This should be handled/respected in all modules/libraries
     </p>
     <div class="sep"></div>
-    <iframe class="iframe" src="{{.MatchedService.Status}}"></iframe>
+    <hr />
+    <div class="foot">
+        <p class="padded">
+            This maintainence page is powered by our custom-made Void server written in Golang.
+        </p>
+        <p class="padded">
+            Void Version: {{.Info.Version}}
+        </p>
+        <p class="padded">
+            Void Commit: {{.Info.Commit}}
+        </p>
+        <a style="margin-top:20px" href="https://github.com/Infinitybotlist/void"><iconify-icon inline icon="fa-brands:github"></iconify-icon> Source Code</a>
+    </div>
     </body>
 </html>

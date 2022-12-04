@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"runtime/debug"
 	"strings"
 	"time"
 	"void/state"
@@ -19,8 +20,6 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-var json = jsoniter.ConfigCompatibleWithStandardLibrary
-
 var (
 	//go:embed services.yaml
 	servicesByte []byte
@@ -28,6 +27,10 @@ var (
 	appHTML []byte
 
 	appTemplate *template.Template
+
+	json = jsoniter.ConfigCompatibleWithStandardLibrary
+
+	voidInfo types.VoidInfo
 )
 
 // Load the services.yaml file into the state here because we use go:embed
@@ -51,6 +54,27 @@ func init() {
 	appTemplate = template.Must(template.New("app").Parse(string(appHTML)))
 
 	state.Logger.Info("Got services:", state.Services)
+
+	voidInfo = types.VoidInfo{
+		Version: "1",
+	}
+
+	var commit string
+
+	// Use runtime/debug vcs.revision to get the git commit hash
+	if info, ok := debug.ReadBuildInfo(); ok {
+		for _, setting := range info.Settings {
+			if setting.Key == "vcs.revision" {
+				commit = setting.Value
+			}
+		}
+	}
+
+	if commit == "" {
+		commit = "unknown"
+	}
+
+	voidInfo.Commit = commit
 }
 
 func corsMiddleware(next http.Handler) http.Handler {
@@ -123,6 +147,7 @@ func main() {
 			apiCtx := types.APICtx{
 				Message: "This service is down for maintenance...",
 				Service: service,
+				Info:    voidInfo,
 			}
 
 			json.NewEncoder(w).Encode(apiCtx)
@@ -133,6 +158,7 @@ func main() {
 			MatchedService: service,
 			Path:           r.URL.Path,
 			Hostname:       hostname,
+			Info:           voidInfo,
 		}
 
 		// Set status code of 408
@@ -148,5 +174,5 @@ func main() {
 		}
 	})
 
-	http.ListenAndServe(":3838", r)
+	http.ListenAndServe(":1292", r)
 }

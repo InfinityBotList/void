@@ -18,13 +18,21 @@ type Document struct {
 	APIUrls  []string  `yaml:"apiUrls"`
 }
 
+// Some information about the maintenance server
+type VoidInfo struct {
+	Version string
+	Commit  string
+}
+
 type HTMLCtx struct {
 	MatchedService Service
 	Path           string
 	Hostname       string
+	Info           VoidInfo
 }
 
 type APICtx struct {
-	Message string  `json:"message"`
-	Service Service `json:"service"`
+	Message string   `json:"message"`
+	Service Service  `json:"service"`
+	Info    VoidInfo `json:"info"`
 }
