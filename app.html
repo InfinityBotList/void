@@ -23,6 +23,7 @@
                 border-radius: 5px 5px 5px 5px;
                 border: 1px solid #7289DA;
                 padding: 10px;
+                pointer: cursor;
             }
         
             code {
@@ -89,15 +90,22 @@
     <div class="sep"></div>
     <hr />
     <div class="foot">
-        <p class="padded">
+        <span>
             This maintainence page is powered by our custom-made Void server written in Golang.
-        </p>
-        <p class="padded">
+        </span>
+        <div class="sep"></div>
+        <span>
             Void Version: {{.Info.Version}}
-        </p>
-        <p class="padded">
+        </span>
+        <div class="sep"></div>
+        <span>
             Void Commit: {{.Info.Commit}}
-        </p>
+        </span>
+        <div class="sep"></div>
+        <span>
+            Void Route: [path={{.Path}}, hostname={{.Hostname}}]
+        </span>
+        <div class="sep"></div>
         <a style="margin-top:20px" href="https://github.com/Infinitybotlist/void"><iconify-icon inline icon="fa-brands:github"></iconify-icon> Source Code</a>
     </div>
     </body>
