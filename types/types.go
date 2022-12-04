@@ -23,3 +23,8 @@ type HTMLCtx struct {
 	Path           string
 	Hostname       string
 }
+
+type APICtx struct {
+	Message string  `json:"message"`
+	Service Service `json:"service"`
+}

@@ -51,6 +51,24 @@
             .bold {
                 font-weight: bold;
             }
+
+            .iframe {
+                width: 95%;
+                margin: auto;
+                height: auto;
+                min-height: 700px;
+                border: none;
+            }
+
+            .padded {
+                width: 95%;
+                margin: auto;
+            }
+
+            .sep {
+                margin-bottom: 10px;
+                margin-top: 10px;
+            }
         </style>
     </head>
     <body>
@@ -66,7 +84,13 @@
         </p>
 	<hr />
 	<p class="padded">
-	PRO TIP: You can use the button(s) above to join the support server for this service and find out more info about what's going on! Its probably benign but staff should have some more information!
+	    PRO TIP: You can use the button(s) above to join the support server for this service and find out more info about what's going on! Its probably benign but staff should have some more information!
 	</p>
+    <div class="sep"></div>
+    <p class="padded">
+        <iconify-icon inline icon="fa-solid:exclamation-circle"></iconify-icon> <strong>NOTE:</strong> All maintenances will return a status code of <code>408</code>. This should be handled/respected in all modules/libraries
+    </p>
+    <div class="sep"></div>
+    <iframe class="iframe" src="{{.MatchedService.Status}}"></iframe>
     </body>
 </html>

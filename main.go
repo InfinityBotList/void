@@ -2,7 +2,6 @@ package main
 
 import (
 	_ "embed"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -15,8 +14,12 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-playground/validator/v10"
 	"github.com/infinitybotlist/eureka/zapchi"
+	jsoniter "github.com/json-iterator/go"
+	"golang.org/x/exp/slices"
 	"gopkg.in/yaml.v3"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 var (
 	//go:embed services.yaml
@@ -98,8 +101,6 @@ func main() {
 			rootDomain = hostname
 		}
 
-		fmt.Println(hostname, rootDomain)
-
 		// Find the right service from config
 		var service = types.Service{
 			Name:    "Unknown Service",
@@ -113,6 +114,19 @@ func main() {
 				service = s
 				break
 			}
+		}
+
+		if strings.HasPrefix(hostname, "api.") || slices.Contains(state.Services.APIUrls, hostname) {
+			w.WriteHeader(http.StatusRequestTimeout)
+			w.Header().Set("Content-Type", "application/json")
+
+			apiCtx := types.APICtx{
+				Message: "This service is down for maintenance...",
+				Service: service,
+			}
+
+			json.NewEncoder(w).Encode(apiCtx)
+			return
 		}
 
 		htmlCtx := types.HTMLCtx{

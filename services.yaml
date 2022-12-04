@@ -28,3 +28,8 @@ services:
     domain: "select-list.xyz"
     support: "https://discord.gg/XdGs8WFFtK"
     status: "https://status.select-list.xyz/"
+
+apiUrls:
+  - "spider.infinitybots.gg"
+  - "sovngarde.infinitybots.gg"
+  - "metro.select-list.xyz"
