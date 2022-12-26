@@ -4,6 +4,11 @@ services:
     support: "https://discord.gg/cRuprw9CGz"
     status: "https://status.botlist.site/"
 
+  - name: "Infinity Bot List [maint]"
+    domain: "infinitybots.gg"
+    support: "https://discord.gg/cRuprw9CGz"
+    status: "https://status.botlist.site/"
+
   - name: "JobCord"
     domain: "jobcord.co"
     support: "https://discord.gg/E3tan4FRux"
