@@ -159,6 +159,7 @@ func main() {
 			Path:           r.URL.Path,
 			Hostname:       hostname,
 			Info:           voidInfo,
+			Redirect:       r.URL.Query().Get("src"),
 		}
 
 		// Set status code of 408

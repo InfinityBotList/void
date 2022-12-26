@@ -29,6 +29,7 @@ type HTMLCtx struct {
 	Path           string
 	Hostname       string
 	Info           VoidInfo
+	Redirect       string
 }
 
 type APICtx struct {
