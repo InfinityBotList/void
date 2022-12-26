@@ -16,7 +16,7 @@
             <hr />
             <h2>Whoops, looks like the service is currently unable to handle requests or down for maintenance!</h2>
 	    {{if .Redirect}}
-	    	<a href="{{.Redirect}}" class="btn-go-home" target="_blank">Retry</a>
+	    	<a href="{{.Redirect}}" class="btn-go-home">Retry</a>
 	    {{end}}
             <a href="https://{{.MatchedService.Domain}}" class="btn-go-home" target="_blank">View Website</a>
             <a href="{{.MatchedService.Status}}" class="btn-go-home" target="_blank">Status Page</a>
