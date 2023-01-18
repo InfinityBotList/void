@@ -28,7 +28,12 @@ services:
     domain: "chillcord.life"
     support: "https://discord.gg/cRuprw9CGz"
     status: "https://status.botlist.site/" # This is the same as Infinity Bot List
-  
+ 
+  - name: "NARC API"
+    domain: "scripts.narc.live"
+    support: "https://discord.gg/ncZeffBc9N"
+    status: "https://narc.instatus.com/"
+
   - name: "Select List"
     domain: "select-list.xyz"
     support: "https://discord.gg/XdGs8WFFtK"
