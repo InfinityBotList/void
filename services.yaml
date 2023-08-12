@@ -41,5 +41,6 @@ services:
 
 apiUrls:
   - "spider.infinitybots.gg"
-  - "sovngarde.infinitybots.gg"
-  - "metro.select-list.xyz"
+  - "spider-staging.infinitybots.gg"
+  - "rpc.infinitybots.gg"
+  - "persepolis.infinitybots.gg"

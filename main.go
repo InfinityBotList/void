@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"runtime/debug"
+	"strconv"
 	"strings"
 	"time"
 	"void/state"
@@ -85,9 +86,12 @@ func corsMiddleware(next http.Handler) http.Handler {
 		w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
+		w.Header().Set("Method", r.URL.Query().Get("method"))
+		w.Header().Set("Method-Len", strconv.Itoa(len(r.URL.Query().Get("method"))))
 
-		if r.Method == "OPTIONS" {
+		if r.URL.Query().Get("method") == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
 			w.Write([]byte{})
 			return
 		}
@@ -101,10 +105,10 @@ func main() {
 
 	// A good base middleware stack
 	r.Use(
+		corsMiddleware,
 		middleware.Recoverer,
 		middleware.RealIP,
 		middleware.CleanPath,
-		corsMiddleware,
 		zapchi.Logger(state.Logger, "api"),
 		middleware.Timeout(30*time.Second),
 	)
