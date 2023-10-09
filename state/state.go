@@ -15,7 +15,7 @@ var (
 )
 
 // Services is set by main.go, we need to init everything else here
-func init() {
+func Init() {
 	// lumberjack.Logger is already safe for concurrent use, so we don't need to
 	// lock it.
 	w := zapcore.AddSync(&lumberjack.Logger{
