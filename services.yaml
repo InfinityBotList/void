@@ -42,5 +42,5 @@ services:
 apiUrls:
   - "spider.infinitybots.gg"
   - "spider-staging.infinitybots.gg"
-  - "rpc.infinitybots.gg"
+  - "prod--panel-api.infinitybots.gg"
   - "persepolis.infinitybots.gg"

@@ -1,8 +1,9 @@
 package main
 
 import (
-	_ "embed"
+	"embed"
 	"html/template"
+	"io/fs"
 	"log"
 	"net/http"
 	"runtime/debug"
@@ -25,6 +26,8 @@ var (
 	servicesByte []byte
 	//go:embed app.html
 	appHTML []byte
+	//go:embed assets/*
+	assets embed.FS
 
 	appTemplate *template.Template
 
@@ -79,7 +82,7 @@ func init() {
 	voidInfo.Commit = commit
 }
 
-func corsMiddleware(next http.Handler) http.Handler {
+func dataHandlerMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// limit body to 10mb
 		r.Body = http.MaxBytesReader(w, r.Body, 10*1024*1024)
@@ -89,7 +92,21 @@ func corsMiddleware(next http.Handler) http.Handler {
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
 
-		if r.URL.Query().Get("method") == "OPTIONS" {
+		if r.URL.Query().Get("data") != "" {
+			split := strings.Split(r.URL.Query().Get("data"), "|")
+
+			if len(split) > 0 {
+				r.Method = split[0]
+			}
+
+			if len(split) > 1 {
+				// All the remaining sections are considered PATH
+				r.URL.Path = strings.Join(split[1:], "/")
+			}
+		}
+
+		// Handle options immediately here
+		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
 			w.Write([]byte{})
 			return
@@ -105,12 +122,22 @@ func main() {
 	// A good base middleware stack
 	r.Use(
 		middleware.Recoverer,
+		dataHandlerMiddleware,
 		middleware.RealIP,
 		middleware.CleanPath,
-		corsMiddleware,
 		zapchi.Logger(state.Logger, "api"),
 		middleware.Timeout(30*time.Second),
 	)
+
+	subbedAssets, err := fs.Sub(assets, "assets")
+
+	if err != nil {
+		panic(err)
+	}
+
+	r.HandleFunc("/__voidStatic/*", func(w http.ResponseWriter, r *http.Request) {
+		http.StripPrefix("/__voidStatic", http.FileServer(http.FS(subbedAssets))).ServeHTTP(w, r)
+	})
 
 	r.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {
 		// Get the hostname from the request
@@ -178,7 +205,7 @@ func main() {
 		}
 	})
 
-	err := http.ListenAndServe(":1292", r)
+	err = http.ListenAndServe(":1292", r)
 
 	if err != nil {
 		panic(err)
