@@ -87,9 +87,25 @@ func dataHandlerMiddleware(next http.Handler) http.Handler {
 		// limit body to 10mb
 		r.Body = http.MaxBytesReader(w, r.Body, 10*1024*1024)
 
+		var allowedHeaders = []string{"Content-Type", "Authorization"}
+
+		reqHeaderList := strings.Split(r.Header.Get("Access-Control-Request-Headers"), ",")
+
+		for _, name := range reqHeaderList {
+			if name == "" {
+				continue
+			}
+
+			state.Logger.Info(name)
+
+			if strings.HasPrefix(strings.ToLower(name), "x-") {
+				allowedHeaders = append(allowedHeaders, strings.ReplaceAll(name, " ", ""))
+			}
+		}
+
 		w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		w.Header().Set("Access-Control-Allow-Headers", strings.Join(allowedHeaders, ", "))
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
 
 		if r.URL.Query().Get("data") != "" {
