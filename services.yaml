@@ -9,7 +9,7 @@ services:
     support: "https://discord.gg/cRuprw9CGz"
     status: "https://status.botlist.site/"
 
-  - name: "JobCord"
+  - name: "Nexium"
     domain: "jobcord.co"
     support: "https://discord.gg/E3tan4FRux"
     status: "https://status.jobcord.co/"
@@ -24,10 +24,10 @@ services:
     support: "https://discord.gg/RbaAfbd692"
     status: "https://status.diswidgets.org/"
 
-  - name: "ChillCord"
-    domain: "chillcord.life"
+  - name: "CordX"
+    domain: "cordximg.host"
     support: "https://discord.gg/cRuprw9CGz"
-    status: "https://status.botlist.site/" # This is the same as Infinity Bot List
+    status: "https://status.cordx.lol" # This is the same as Infinity Bot List
  
   - name: "NARC API"
     domain: "scripts.narc.live"
