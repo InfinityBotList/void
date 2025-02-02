@@ -62,6 +62,8 @@ With this setup, Void will run as a systemd service, starting automatically at b
 ## Starting the Void Server
 To run the project locally, follow these steps:
 
+> **NOTE**: void requires Go v1.18 or higher.
+
 1. **Install Dependencies and Build Void**
   ```sh
   make
