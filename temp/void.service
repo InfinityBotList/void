@@ -1,0 +1,19 @@
+[Unit]
+Description="Void Service"
+After=network.target
+
+[Service]
+User=root
+Group=root
+Type=simple
+ExecStart=/your/path/to/void
+WorkingDirectory=/your/path/to/void
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+RestartSec=1
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,45 @@
+services:
+  - name: "Infinity Bot List"
+    domain: "infinitybots.gg"
+    support: "https://discord.gg/ae6wpKqApt"
+    status: "https://status.botlist.site/"
+
+  - name: "Infinity Bot List [maint]"
+    domain: "infinitybots.gg"
+    support: "https://discord.gg/ae6wpKqApt"
+    status: "https://status.botlist.site/"
+
+  - name: "Nexium"
+    domain: "nexisite.xyz"
+    support: "https://discord.gg/bdEdepTRwd"
+    status: "https://nexium.instatus.com/"
+
+  - name: "DisWidgets"
+    domain: "diswidgets.org"
+    support: "https://discord.gg/RbaAfbd692"
+    status: "https://status.diswidgets.org/"
+
+  - name: "CordX [primary]"
+    domain: "cordximg.host"
+    support: "https://discord.gg/cRuprw9CGz"
+    status: "https://status.cordx.lol"
+
+  - name: "CordX [secondary]"
+    domain: "cordx.lol"
+    support: "https://discord.gg/cRuprw9CGz"
+    status: "https://status.cordx.lol"
+
+  - name: "Octoflow"
+    domain: "octoflow.ca"
+    support: "https://discord.gg/N4hnRmEJMX"
+    status: "https://octoflow.instatus.com"
+
+apiUrls:
+  - "spider.infinitybots.gg"
+  - "spider-staging.infinitybots.gg"
+  - "prod--panel-api.infinitybots.gg"
+  - "persepolis.infinitybots.gg"
+  - "api.cordx.lol"
+  - "api.cordximg.host"
+  - "demonstride.cordx.lol"
+  - "demonstride.cordximg.host"

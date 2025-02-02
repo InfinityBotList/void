@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>503 - Service Unavailable</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #1a1a2e, #121212);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        /* Glassmorphic effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        /* Smooth button animation */
+        .btn {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .separator {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 1rem 0;
+        }
+
+        /* GitHub banner */
+        .github-banner {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .github-banner:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .github-icon {
+            margin-right: 0.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+    
+</head>
+
+<body>
+
+    <!-- GitHub Banner -->
+    <a href="https://github.com/InfinityBotList/void" class="github-banner">
+        <iconify-icon icon="mdi:github" class="github-icon text-2xl text-white"></iconify-icon>
+        <span class="text-white">Open Source on GitHub</span>
+    </a>
+
+    <div class="content">
+        <div id="mainCard" class="glass max-w-lg w-full text-center">
+            <h1 class="text-3xl font-bold">Service Unavailable</h1>
+            <p class="text-gray-300 mt-3 text-lg">We're currently experiencing issues or performing system maintenance. Please check back later.</p>
+
+            <div class="mt-6 space-y-3">
+                {{if .Redirect}}
+                <a href="{{.Redirect}}" class="btn block w-full py-2.5 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white font-medium">
+                    Retry
+                </a>
+                {{end}}
+                <a href="https://{{.MatchedService.Domain}}" class="btn block w-full py-2.5 rounded-md bg-gray-800 hover:bg-gray-700 text-white font-medium">
+                    Visit Website
+                </a>
+                <a href="{{.MatchedService.Status}}" class="btn block w-full py-2.5 rounded-md bg-gray-800 hover:bg-gray-700 text-white font-medium">
+                    Status Page
+                </a>
+                <a href="{{.MatchedService.Support}}" class="btn block w-full py-2.5 rounded-md bg-gray-800 hover:bg-gray-700 text-white font-medium">
+                    Contact Support
+                </a>
+                <button id="debugBtn" class="btn block w-full py-2.5 rounded-md bg-gray-800 hover:bg-gray-700 text-white font-medium">
+                    Debug Info
+                </button>
+            </div>
+
+            <div id="debugInfo" class="hidden mt-6">
+                <div class="separator"></div>
+                <h2 class="text-2xl font-bold mb-4">Debug Information</h2>
+                <div>
+                    <h3 class="text-xl font-semibold">Void Info</h3>
+                    <p><strong>Void Version:</strong> {{.Info.Version}}</p>
+                    <p><strong>Commit:</strong> {{.Info.Commit}}</p>
+                    <p><strong>Route:</strong> [path={{.Path}}, hostname={{.Hostname}}]</p>
+                </div>
+                <div class="separator"></div>
+                <div>
+                    <h3 class="text-xl font-semibold">User Info</h3>
+                    <p><strong>IP Address:</strong> <span id="ipAddress">[Redacted]</span></p>
+                    <p><strong>Location:</strong> <span id="location">[Redacted]</span></p>
+                    <p><strong>Browser:</strong> <span id="browser"></span></p>
+                    <p><strong>Browser Version:</strong> <span id="browserVersion"></span></p>
+                    <button id="unmaskBtn" class="btn mt-4 py-2.5 rounded-md bg-gray-800 hover:bg-gray-700 text-white font-medium">
+                        <iconify-icon icon="mdi:eye" class="text-xl"></iconify-icon> Unmask Info
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-sm text-gray-400 py-4">
+        <p>
+            <a href="https://github.com/InfinityBotList/void" class="hover:text-white">Void Maintenance Server</a> | 
+            <a href="https://infinitydevs.ca/" class="hover:text-white">© 2023 Infinity Development</a>
+        </p>
+    </footer>
+
+    <script>
+        // Get the debug info section
+        var debugInfo = document.getElementById("debugInfo");
+
+        // Get the button that toggles the debug info
+        var btn = document.getElementById("debugBtn");
+
+        // Get the button that unmasks the user info
+        var unmaskBtn = document.getElementById("unmaskBtn");
+
+        // When the user clicks the button, toggle the debug info
+        btn.onclick = function() {
+            if (debugInfo.classList.contains("hidden")) {
+                debugInfo.classList.remove("hidden");
+            } else {
+                debugInfo.classList.add("hidden");
+            }
+        }
+
+        // Fetch user's geographical information
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ipAddress').dataset.ip = data.ip;
+                document.getElementById('location').dataset.location = `${data.city}, ${data.region}, ${data.country_name}`;
+            })
+            .catch(error => console.error('Error fetching geographical information:', error));
+
+        // Get user's browser information
+        var userAgent = navigator.userAgent;
+        var browserName, fullVersion;
+
+        if ((offset = userAgent.indexOf("Chrome")) != -1) {
+            browserName = "Chrome";
+            fullVersion = userAgent.substring(offset + 7);
+        } else if ((offset = userAgent.indexOf("Firefox")) != -1) {
+            browserName = "Firefox";
+            fullVersion = userAgent.substring(offset + 8);
+        } else if ((offset = userAgent.indexOf("MSIE")) != -1) {
+            browserName = "Microsoft Internet Explorer";
+            fullVersion = userAgent.substring(offset + 5);
+        } else if ((offset = userAgent.indexOf("Safari")) != -1) {
+            browserName = "Safari";
+            fullVersion = userAgent.substring(offset + 7);
+            if ((offset = userAgent.indexOf("Version")) != -1) {
+                fullVersion = userAgent.substring(offset + 8);
+            }
+        } else if ((offset = userAgent.indexOf("Opera")) != -1) {
+            browserName = "Opera";
+            fullVersion = userAgent.substring(offset + 6);
+            if ((offset = userAgent.indexOf("Version")) != -1) {
+                fullVersion = userAgent.substring(offset + 8);
+            }
+        } else {
+            browserName = "Unknown";
+            fullVersion = "Unknown";
+        }
+
+        document.getElementById('browser').textContent = browserName;
+        document.getElementById('browserVersion').textContent = fullVersion.split(" ")[0];
+
+        // When the user clicks the unmask button, toggle the real info
+        unmaskBtn.onclick = function() {
+            var ipAddress = document.getElementById('ipAddress');
+            var location = document.getElementById('location');
+            if (ipAddress.textContent === '[Redacted]') {
+                ipAddress.textContent = ipAddress.dataset.ip;
+                location.textContent = location.dataset.location;
+                unmaskBtn.innerHTML = '<iconify-icon icon="mdi:eye-off" class="text-xl"></iconify-icon> Mask Info';
+            } else {
+                ipAddress.textContent = '[Redacted]';
+                location.textContent = '[Redacted]';
+                unmaskBtn.innerHTML = '<iconify-icon icon="mdi:eye" class="text-xl"></iconify-icon> Unmask Info';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
