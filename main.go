@@ -61,7 +61,7 @@ func init() {
 	state.Logger.Info("Got services:", state.Services)
 
 	voidInfo = types.VoidInfo{
-		Version: "2",
+		Version: "2.0.0-alpha.1",
 	}
 
 	var commit string
